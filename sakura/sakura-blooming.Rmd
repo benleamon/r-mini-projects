@@ -1,0 +1,29 @@
+---
+title: "Sakura"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(stringr)
+```
+
+Data from: http://atmenv.envi.osakafu-u.ac.jp/aono/kyophenotemp4/ via http://atmenv.envi.osakafu-u.ac.jp/aono/kyophenotemp4/.
+
+```{r}
+# Read in the data
+sakura <- read.csv("sakura.csv", header = TRUE, sep=",", col.names = c("year", "dayOfYear", "rawDate", "sourceCode", "typeCode", "reference"))
+
+# Turn rawDate and year into a date, calculate day of the year
+sakura <- sakura %>% 
+  mutate(date = make_date(year, str_sub(rawDate, 1,1), str_sub(rawDate, 2,3)), doy = yday(date))
+  
+  
+```
+
+
