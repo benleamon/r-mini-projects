@@ -17,7 +17,7 @@ Data from: http://atmenv.envi.osakafu-u.ac.jp/aono/kyophenotemp4/ via http://atm
 
 ```{r}
 # Add styling information: 
-width <- 10
+width <- 6
 title_font <- "Noto Sans Bold"
 main_font <- "NotoSans"
 
@@ -48,7 +48,7 @@ latest <- max(sakura$bloom_date, na.rm = TRUE)
 
 sakura %>%
   ggplot(aes(year, bloom_date))+
-  geom_point()+
+  geom_point(color = "#F08F90", alpha = 0.75)+
   geom_smooth()+ 
   scale_y_date(labels = scales::label_date("%B %d"))+
   coord_cartesian(ylim = as.Date(c("2020-01-01", latest)), expand = TRUE) + 
@@ -58,7 +58,7 @@ sakura %>%
     y = "Date of Full Flowering",
     caption = "Data: Aono and Kazui, 2008; Aono and Saito, 2010; Aono, 2012. http://atmenv.envi.osakafu-u.ac.jp/"
   ) + 
-  ggsave("sakura-plot .png")
+  ggsave("sakura-plot.png", width = width, height = width*.618)
 ```
 
 
