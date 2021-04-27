@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(lubridate)
 library(stringr)
+library(ggrepel)
 ```
 
 Data from: http://atmenv.envi.osakafu-u.ac.jp/aono/kyophenotemp4/ via http://atmenv.envi.osakafu-u.ac.jp/aono/kyophenotemp4/.
@@ -46,10 +47,13 @@ sakura <- sakura %>%
   
 latest <- max(sakura$bloom_date, na.rm = TRUE)
 
+to_label <- sakura %>% slice_min(order_by = doy, n = 2)
+
 sakura %>%
   ggplot(aes(year, bloom_date))+
   geom_point(color = "#F08F90", alpha = 0.75)+
-  geom_smooth()+ 
+  geom_smooth(color = "#9D2933")+ 
+  geom_text_repel(data = to_label, aes(label = as.character(date)), nudge_y = -20)+
   scale_y_date(labels = scales::label_date("%B %d"))+
   coord_cartesian(ylim = as.Date(c("2020-01-01", latest)), expand = TRUE) + 
   labs(
